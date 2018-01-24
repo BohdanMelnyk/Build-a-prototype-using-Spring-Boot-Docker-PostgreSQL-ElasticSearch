@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-@Configuration
-@EnableElasticsearchRepositories(basePackages = "com.perfectial.study.repository.")
+//@Configuration
+//@EnableElasticsearchRepositories(basePackages = "com.perfectial.study.repository.")
 public class ElasticConfiguration {
 
     @Autowired
@@ -54,26 +54,5 @@ public class ElasticConfiguration {
     @PreDestroy
     public void deleteIndex() {
         operations.deleteIndex(Bid.class);
-    }
-
-    @PostConstruct
-    public void insertDataSample() {
-        bidRepository.deleteAll();
-        operations.refresh(Bid.class);
-        bidRepository.saveAll(getRandomBids());
-    }
-
-    private List<Bid> getRandomBids() {
-        List<Bid> bids = new ArrayList<>();
-       for(int i=0;i<11;i++){
-            Random rand = new Random();
-            Bid randomBid = new Bid();
-            randomBid.setUserName("User N = " +  rand.nextInt(100));
-            randomBid.setStake(BigDecimal.valueOf(rand.nextDouble()));
-            randomBid.setAddedDate(LocalDateTime.now());
-            randomBid.setLoggedDate(LocalDateTime.now());
-            bids.add(randomBid);
-        };
-        return bids;
     }
 }

@@ -13,6 +13,7 @@ spring:
       test-while-idle: true
       validation-query: SELECT 1
   jpa:
+    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
     show-sql: true

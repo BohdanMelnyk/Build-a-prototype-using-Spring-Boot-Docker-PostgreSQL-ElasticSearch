@@ -12,23 +12,33 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Document(indexName = "bid-index", type = "bid-type", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Bid{
+//@Document(indexName = "bid-index", type = "bid-type", shards = 1, replicas = 0, refreshInterval = "-1")
+@Table(name = "bid")
+public class Bid implements Serializable{
+
+    private static final long serialVersionUID = -3009157732242241606L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "userName")
     private String userName;
+    @Column(name = "stake")
     private BigDecimal stake;
-    @Field(type = FieldType.Date) private LocalDateTime addedDate;
-    @Field(type = FieldType.Date) private LocalDateTime loggedDate;
+
+    @Column(name = "addedDate")
+    @Field(type = FieldType.Date)
+    private LocalDateTime addedDate;
+
+    @Column(name = "loggedDate")
+    @Field(type = FieldType.Date)
+    private LocalDateTime loggedDate;
 
     public Bid(String userName, BigDecimal stake, LocalDateTime addedDate) {
         this.userName = userName;
