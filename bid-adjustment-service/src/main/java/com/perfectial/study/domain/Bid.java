@@ -3,6 +3,10 @@ package com.perfectial.study.domain;
 /**
  * Created by bomel on 1/23/2018.
  */
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -27,17 +31,27 @@ public class Bid implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "userName")
+    @NonNull
     private String userName;
+
+
     @Column(name = "stake")
+    @NonNull
     private BigDecimal stake;
 
     @Column(name = "addedDate")
     @Field(type = FieldType.Date)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @NonNull
     private LocalDateTime addedDate;
 
     @Column(name = "loggedDate")
     @Field(type = FieldType.Date)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime loggedDate;
 
     public Bid(String userName, BigDecimal stake, LocalDateTime addedDate) {

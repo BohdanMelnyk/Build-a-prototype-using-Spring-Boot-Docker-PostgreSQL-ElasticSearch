@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by bomel on 1/23/2018.
  */
 @RestController
-public class CashFlowController {
+public class CashFlowResource {
     private final CashFlowService cashFlowService;
 
-    public CashFlowController(CashFlowService cashFlowService) {
+    public CashFlowResource(CashFlowService cashFlowService) {
         this.cashFlowService = cashFlowService;
     }
 

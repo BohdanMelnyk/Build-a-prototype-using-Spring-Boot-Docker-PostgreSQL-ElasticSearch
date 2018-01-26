@@ -1,13 +1,18 @@
 spring:
   profiles:
     active: default
+redisqueue:
+  name: "bid:redisqueue"
+  host-name: "localhost"
+  port: 6379
+
 ---
 spring:
   profiles: default
   application:
       name: cash-flow-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/cash-flow-db?user=postgres&password=password
+    url: jdbc:postgresql://localhost:5432/usercashflow-db?user=postgres&password=password
     driver-class-name: org.postgresql.Driver
     dbcp2:
       test-while-idle: true
@@ -20,9 +25,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         hbm2ddl:
-          auto: none
+          auto: create
         temp:
           use_jdbc_metadata_defaults: false
+
 server:
   port: 8083
 

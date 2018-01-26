@@ -23,8 +23,8 @@ public class InitConfig {
 
     @PostConstruct
     public void insertDataSample() {
-//        bidRepository.deleteAll();
-        bidRepository.saveAll(getRandomBids());
+        bidRepository.deleteAll();
+//        bidRepository.saveAll(getRandomBids());
     }
 
     private List<Bid> getRandomBids() {

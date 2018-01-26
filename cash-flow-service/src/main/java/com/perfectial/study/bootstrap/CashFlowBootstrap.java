@@ -1,7 +1,7 @@
 package com.perfectial.study.bootstrap;
 
-import com.perfectial.study.domain.Bid;
-import com.perfectial.study.repository.CashFlowRepository;
+import com.perfectial.study.domain.UserCashFlow;
+import com.perfectial.study.repository.UserCashFlowRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -21,29 +21,29 @@ import java.util.Random;
 @Component
 public class CashFlowBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final CashFlowRepository cashFlowRepository;
+    private final UserCashFlowRepository userCashFlowRepository;
 
-    public CashFlowBootstrap(CashFlowRepository cashFlowRepository){
-        this.cashFlowRepository = cashFlowRepository;
+    public CashFlowBootstrap(UserCashFlowRepository userCashFlowRepository){
+        this.userCashFlowRepository = userCashFlowRepository;
     }
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        cashFlowRepository.saveAll(getRandomBids());
+        userCashFlowRepository.saveAll(getRandomUserCashFlow());
         log.info("Loading Bootstrap Data");
     }
 
-    private List<Bid> getRandomBids() {
-        List<Bid> bids = new ArrayList<>();
-//        do{
-//            Random rand = new Random();
-//            Bid randomBid = new Bid();
-//            randomBid.setUserName("User N = " +  rand.nextInt(100));
-//            randomBid.setStake(BigDecimal.valueOf(rand.nextDouble()));
-//            randomBid.setAddedDate(LocalDateTime.now());
-//            randomBid.setLoggedDate(LocalDateTime.now());
-//            bids.add(randomBid);
-//        } while(bids.size()<11);
-        return bids;
+    private List<UserCashFlow> getRandomUserCashFlow() {
+        List<UserCashFlow> userCashFlows = new ArrayList<>();
+        do{
+            Random rand = new Random();
+            UserCashFlow userCashFlow = new UserCashFlow();
+            userCashFlow.setUserName("User N = " +  rand.nextInt(10));
+            userCashFlow.setStake(BigDecimal.valueOf(rand.nextDouble()));
+            userCashFlow.setBalance(BigDecimal.valueOf(rand.nextDouble()));
+            userCashFlow.setUpdatedDate(LocalDateTime.now());
+            userCashFlows.add(userCashFlow);
+        } while(userCashFlows.size()<100);
+        return userCashFlows;
     }
 }

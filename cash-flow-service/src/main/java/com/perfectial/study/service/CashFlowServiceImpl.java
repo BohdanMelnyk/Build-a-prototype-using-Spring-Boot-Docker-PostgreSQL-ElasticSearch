@@ -1,7 +1,10 @@
 package com.perfectial.study.service;
 
-import com.perfectial.study.repository.CashFlowRepository;
+import com.perfectial.study.domain.UserCashFlow;
+import com.perfectial.study.repository.UserCashFlowRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created by bomel on 1/23/2018.
@@ -9,10 +12,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class CashFlowServiceImpl implements CashFlowService {
 
-    private final CashFlowRepository cashFlowRepository;
+    private final UserCashFlowRepository cashFlowRepository;
 
-    public CashFlowServiceImpl(CashFlowRepository cashFlowRepository) {
+    public CashFlowServiceImpl(UserCashFlowRepository cashFlowRepository) {
         this.cashFlowRepository = cashFlowRepository;
     }
 
+    @Override
+    public Optional<UserCashFlow> findFirstByUserNameOrderByUpdatedDateDesc(String userName) {
+        return cashFlowRepository.findFirstByUserNameOrderByUpdatedDateDesc(userName);
+    }
 }

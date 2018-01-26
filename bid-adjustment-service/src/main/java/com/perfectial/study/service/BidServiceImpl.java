@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class BidServiceImpl implements BidService {
 
     private final BidRepository bidRepository;
+    private final SendBidService sendBidService;
 
-    public BidServiceImpl(BidRepository bidRepository) {
+    public BidServiceImpl(BidRepository bidRepository, SendBidService sendBidService) {
         this.bidRepository = bidRepository;
+        this.sendBidService = sendBidService;
     }
 
     @Override
@@ -23,6 +25,8 @@ public class BidServiceImpl implements BidService {
 
     @Override
     public Bid addBid(Bid bid) {
-        return bidRepository.save(bid);
+        Bid savedBid = bidRepository.save(bid);
+        sendBidService.sendBidToQueue(savedBid);
+        return savedBid;
     }
 }

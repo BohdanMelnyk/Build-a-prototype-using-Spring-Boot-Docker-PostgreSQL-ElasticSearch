@@ -1,8 +1,5 @@
 package com.perfectial.study.domain;
 
-/**
- * Created by bomel on 1/23/2018.
- */
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -10,21 +7,19 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+/**
+ * Created by bomel on 1/26/2018.
+ */
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//@Document(indexName = "bid-index", type = "bid-type", shards = 1, replicas = 0, refreshInterval = "-1")
-@Table(name = "bid")
-public class Bid implements Serializable{
-
-    private static final long serialVersionUID = -3009157732242241606L;
-
+public class UserCashFlow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,24 +28,24 @@ public class Bid implements Serializable{
     @NonNull
     private String userName;
 
+    @Column(name = "balance")
+    @NonNull
+    private BigDecimal balance;
+
     @Column(name = "stake")
     @NonNull
     private BigDecimal stake;
 
-    @Column(name = "addedDate")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Column(name = "lastUpdate")
     @NonNull
-    private LocalDateTime addedDate;
-
-    @Column(name = "loggedDate")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime loggedDate;
+    private LocalDateTime updatedDate;
 
-    public Bid(String userName, BigDecimal stake, LocalDateTime addedDate) {
+    public UserCashFlow(String userName, BigDecimal balance, BigDecimal stake, LocalDateTime updatedDate) {
         this.userName = userName;
+        this.balance = balance;
         this.stake = stake;
-        this.addedDate = addedDate;
+        this.updatedDate = updatedDate;
     }
 }
