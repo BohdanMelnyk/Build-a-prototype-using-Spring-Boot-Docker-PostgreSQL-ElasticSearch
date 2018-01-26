@@ -7,6 +7,7 @@ import com.perfectial.study.service.CashFlowService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
@@ -50,12 +51,12 @@ public class ProcessingBidFromQueueServiceImpl implements ProcessingBidFromQueue
         Optional<UserCashFlow> userBalanceOptional = cashFlowService.findFirstByUserNameOrderByUpdatedDateDesc(bid.getUserName());
         if (userBalanceOptional.isPresent()) {
             UserCashFlow userCashFlow = userBalanceOptional.get();
-            userCashFlow.setBalance(userCashFlow.getBalance().add(bid.getStake()));
+            userCashFlow.setPreviousBalance(userCashFlow.getPreviousBalance().add(bid.getStake()));
             userCashFlow.setStake(bid.getStake());
             userCashFlow.setUpdatedDate(LocalDateTime.now());
             userCashFlowRepository.save(userCashFlow);
         } else {
-            userCashFlowRepository.save(new UserCashFlow(bid.getUserName(), bid.getStake(), bid.getStake(), LocalDateTime.now()));
+            userCashFlowRepository.save(new UserCashFlow(bid.getUserName(), BigDecimal.ZERO, bid.getStake(), bid.getStake(), LocalDateTime.now()));
             log.info("New UserCashFlow was created: user name is " + bid.getUserName());
 
         }

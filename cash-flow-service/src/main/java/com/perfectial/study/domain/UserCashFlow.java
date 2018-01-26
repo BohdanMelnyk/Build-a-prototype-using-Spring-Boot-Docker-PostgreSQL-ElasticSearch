@@ -28,9 +28,13 @@ public class UserCashFlow {
     @NonNull
     private String userName;
 
-    @Column(name = "balance")
+    @Column(name = "previousBalance")
     @NonNull
-    private BigDecimal balance;
+    private BigDecimal previousBalance;
+
+    @Column(name = "currentBalance")
+    @NonNull
+    private BigDecimal currentBalance;
 
     @Column(name = "stake")
     @NonNull
@@ -42,9 +46,10 @@ public class UserCashFlow {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updatedDate;
 
-    public UserCashFlow(String userName, BigDecimal balance, BigDecimal stake, LocalDateTime updatedDate) {
+    public UserCashFlow(String userName, BigDecimal previousBalance, BigDecimal currentBalance, BigDecimal stake, LocalDateTime updatedDate) {
         this.userName = userName;
-        this.balance = balance;
+        this.previousBalance = previousBalance;
+        this.currentBalance = currentBalance;
         this.stake = stake;
         this.updatedDate = updatedDate;
     }
