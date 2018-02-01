@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+
+  biddb:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: biddb
+#      POSTGRES_MULTIPLE_DATABASES: biddb,usercashflowdb
+    ports:
+      - "5433:5432"
+
+
+  usercashflowdb:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: usercashflowdb
+#      POSTGRES_MULTIPLE_DATABASES: biddb,usercashflowdb
+    ports:
+      - "5434:5432"
+
+  redisqueue:
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"

@@ -51,14 +51,24 @@ public class ProcessingBidFromQueueServiceImpl implements ProcessingBidFromQueue
         Optional<UserCashFlow> userBalanceOptional = cashFlowService.findFirstByUserNameOrderByUpdatedDateDesc(bid.getUserName());
         if (userBalanceOptional.isPresent()) {
             UserCashFlow userCashFlow = userBalanceOptional.get();
-            userCashFlow.setPreviousBalance(userCashFlow.getPreviousBalance().add(bid.getStake()));
-            userCashFlow.setStake(bid.getStake());
-            userCashFlow.setUpdatedDate(LocalDateTime.now());
-            userCashFlowRepository.save(userCashFlow);
+            userCashFlowRepository.save(updatedUserCashFlow(userCashFlow, bid));
         } else {
-            userCashFlowRepository.save(new UserCashFlow(bid.getUserName(), BigDecimal.ZERO, bid.getStake(), bid.getStake(), LocalDateTime.now()));
+            userCashFlowRepository.save(getNewUserCashFlow(bid));
             log.info("New UserCashFlow was created: user name is " + bid.getUserName());
-
         }
+    }
+
+    private UserCashFlow getNewUserCashFlow(Bid bid) {
+        return new UserCashFlow(bid.getUserName(), BigDecimal.ZERO, bid.getStake(), bid.getStake(), LocalDateTime.now());
+    }
+
+    private UserCashFlow updatedUserCashFlow(UserCashFlow userCashFlow, Bid bid) {
+        UserCashFlow newUserCashFlow = new UserCashFlow();
+        newUserCashFlow.setUserName(userCashFlow.getUserName());
+        newUserCashFlow.setPreviousBalance(userCashFlow.getCurrentBalance());
+        newUserCashFlow.setCurrentBalance(userCashFlow.getCurrentBalance().add(bid.getStake()));
+        newUserCashFlow.setStake(bid.getStake());
+        newUserCashFlow.setUpdatedDate(LocalDateTime.now());
+        return newUserCashFlow;
     }
 }

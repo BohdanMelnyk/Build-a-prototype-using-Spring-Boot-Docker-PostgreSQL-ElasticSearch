@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: default
+    active: docker
 redisqueue:
   name: "bid:redisqueue"
   host-name: "localhost"
@@ -12,7 +12,7 @@ spring:
   application:
       name: cash-flow-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/usercashflow-db?user=postgres&password=password
+    url: jdbc:postgresql://localhost:5432/usercashflowdb?user=postgres&password=password
     driver-class-name: org.postgresql.Driver
     dbcp2:
       test-while-idle: true
@@ -46,6 +46,23 @@ spring:
   profiles: docker
   application:
       name: cash-flow-service
+  datasource:
+    url: jdbc:postgresql://localhost:5434/usercashflowdb?user=postgres&password=password
+    driver-class-name: org.postgresql.Driver
+    dbcp2:
+      test-while-idle: true
+      validation-query: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl:
+          auto: create
+        temp:
+          use_jdbc_metadata_defaults: false
 
 server:
   port: 8083
