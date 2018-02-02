@@ -1,4 +1,4 @@
-String template = new File("${project.basedir}/src/main/docker/DockerfileTemplate".toString()).getText()
+String template = new File("${project.basedir}/src/main/docker/Dockerfile".toString()).getText()
 
 def dockerFileText = new groovy.text.SimpleTemplateEngine().createTemplate(template)
         .make([fileName: project.build.finalName])

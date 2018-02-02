@@ -28,7 +28,7 @@
 		<docker.image.prefix>bomel</docker.image.prefix>
 
 		<!--Set to name of project-->
-		<docker.image.name>spring-boot-docker-cash-flow-service</docker.image.name>
+		<docker.image.name>cash-flow-service-docker</docker.image.name>
 	</properties>
 
 	<dependencies>
@@ -223,7 +223,7 @@
 				</configuration>
 			</plugin>
 
-			<!--For groovy: this plugin will build docker file from DockerfileTemplate-->
+			<!--For groovy: this plugin will build docker file fDockerfilelate-->
 			<plugin>
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>
