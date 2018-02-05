@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//@Document(indexName = "bid-index", type = "bid-type", shards = 1, replicas = 0, refreshInterval = "-1")
 @Table(name = "bid")
 public class Bid implements Serializable{
 

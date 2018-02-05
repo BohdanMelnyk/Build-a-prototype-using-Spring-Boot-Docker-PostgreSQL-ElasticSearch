@@ -74,6 +74,13 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!--Model converter-->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>0.7.4</version>
+		</dependency>
+
 		<!--Redis-->
 		<dependency>
 			<groupId>redis.clients</groupId>

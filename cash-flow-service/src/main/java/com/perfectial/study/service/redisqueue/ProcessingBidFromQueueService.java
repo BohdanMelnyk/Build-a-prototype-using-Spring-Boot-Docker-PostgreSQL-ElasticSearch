@@ -1,6 +1,6 @@
 package com.perfectial.study.service.redisqueue;
 
-import com.perfectial.study.domain.Bid;
+import com.perfectial.study.dto.BidDTO;
 
 import java.util.Collection;
 
@@ -13,7 +13,7 @@ public interface ProcessingBidFromQueueService {
 
     void processBidFromQueue();
 
-    void process(Collection<Bid> bids);
+    void process(Collection<BidDTO> bids);
 
-    void process(Bid bid);
+    void process(BidDTO bid);
 }

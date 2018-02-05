@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserCashFlow {
+public class CashFlow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,7 +46,7 @@ public class UserCashFlow {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updatedDate;
 
-    public UserCashFlow(String userName, BigDecimal previousBalance, BigDecimal currentBalance, BigDecimal stake, LocalDateTime updatedDate) {
+    public CashFlow(String userName, BigDecimal previousBalance, BigDecimal currentBalance, BigDecimal stake, LocalDateTime updatedDate) {
         this.userName = userName;
         this.previousBalance = previousBalance;
         this.currentBalance = currentBalance;

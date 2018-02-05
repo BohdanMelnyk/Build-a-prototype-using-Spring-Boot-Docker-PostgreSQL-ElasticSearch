@@ -1,16 +1,12 @@
-package com.perfectial.study.resource;
+package com.perfectial.study.controller;
 
 import com.perfectial.study.domain.Bid;
 import com.perfectial.study.service.BidService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 /**
  * Created by bomel on 1/23/2018.

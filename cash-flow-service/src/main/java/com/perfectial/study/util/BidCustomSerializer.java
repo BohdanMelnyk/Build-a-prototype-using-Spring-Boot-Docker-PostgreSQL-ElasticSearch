@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
-import com.perfectial.study.domain.Bid;
+import com.perfectial.study.dto.BidDTO;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BidCustomSerializer implements RedisSerializer<Bid> {
+public class BidCustomSerializer implements RedisSerializer<BidDTO> {
 
 	private final ObjectMapper objectMapper;
 
@@ -20,7 +20,7 @@ public class BidCustomSerializer implements RedisSerializer<Bid> {
 	}
 
 	@Override
-	public byte[] serialize(Bid t) throws SerializationException {
+	public byte[] serialize(BidDTO t) throws SerializationException {
 		try {
 			return objectMapper.writeValueAsBytes(t);
 		} catch (JsonProcessingException e) {
@@ -29,13 +29,13 @@ public class BidCustomSerializer implements RedisSerializer<Bid> {
 	}
 
 	@Override
-	public Bid deserialize(byte[] bytes) throws SerializationException {
+	public BidDTO deserialize(byte[] bytes) throws SerializationException {
 		if (bytes == null) {
 			return null;
 		}
 
 		try {
-			return objectMapper.readValue(bytes, Bid.class);
+			return objectMapper.readValue(bytes, BidDTO.class);
 		} catch (Exception e) {
 			throw new SerializationException(e.getMessage(), e);
 		}

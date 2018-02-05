@@ -1,8 +1,8 @@
 package com.perfectial.study.service.redisqueue;
 
-import com.perfectial.study.domain.Bid;
-import com.perfectial.study.domain.UserCashFlow;
-import com.perfectial.study.repository.UserCashFlowRepository;
+import com.perfectial.study.domain.CashFlow;
+import com.perfectial.study.dto.BidDTO;
+import com.perfectial.study.repository.CashFlowRepository;
 import com.perfectial.study.service.CashFlowService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,9 @@ public class ProcessingBidFromQueueServiceImpl implements ProcessingBidFromQueue
 
     private final SubscribeRedisQueueService subscribeRedisQueueService;
     private final CashFlowService cashFlowService;
-    private final UserCashFlowRepository userCashFlowRepository;
+    private final CashFlowRepository userCashFlowRepository;
 
-    public ProcessingBidFromQueueServiceImpl(SubscribeRedisQueueService subscribeRedisQueueService, CashFlowService cashFlowService, UserCashFlowRepository userCashFlowRepository) {
+    public ProcessingBidFromQueueServiceImpl(SubscribeRedisQueueService subscribeRedisQueueService, CashFlowService cashFlowService, CashFlowRepository userCashFlowRepository) {
         this.subscribeRedisQueueService = subscribeRedisQueueService;
         this.cashFlowService = cashFlowService;
         this.userCashFlowRepository = userCashFlowRepository;
@@ -31,39 +31,39 @@ public class ProcessingBidFromQueueServiceImpl implements ProcessingBidFromQueue
 
     @Override
     public void processAllBidsFromQueue() {
-        Collection<Bid> bids = subscribeRedisQueueService.leftPopAllQueue();
+        Collection<BidDTO> bids = subscribeRedisQueueService.leftPopAllQueue();
         process(bids);
     }
 
     @Override
     public void processBidFromQueue() {
-        Bid  bid = subscribeRedisQueueService.leftPop();
+        BidDTO  bid = subscribeRedisQueueService.leftPop();
         process(bid);
     }
 
     @Override
-    public void process(Collection<Bid> bids) {
+    public void process(Collection<BidDTO> bids) {
         bids.stream().forEach(bid -> process(bid));
     }
 
     @Override
-    public void process(Bid bid) {
-        Optional<UserCashFlow> userBalanceOptional = cashFlowService.findFirstByUserNameOrderByUpdatedDateDesc(bid.getUserName());
+    public void process(BidDTO bid) {
+        Optional<CashFlow> userBalanceOptional = cashFlowService.findFirstByUserNameOrderByUpdatedDateDesc(bid.getUserName());
         if (userBalanceOptional.isPresent()) {
-            UserCashFlow userCashFlow = userBalanceOptional.get();
+            CashFlow userCashFlow = userBalanceOptional.get();
             userCashFlowRepository.save(updatedUserCashFlow(userCashFlow, bid));
         } else {
             userCashFlowRepository.save(getNewUserCashFlow(bid));
-            log.info("New UserCashFlow was created: user name is " + bid.getUserName());
+            log.info("New CashFlow was created: user name is " + bid.getUserName());
         }
     }
 
-    private UserCashFlow getNewUserCashFlow(Bid bid) {
-        return new UserCashFlow(bid.getUserName(), BigDecimal.ZERO, bid.getStake(), bid.getStake(), LocalDateTime.now());
+    private CashFlow getNewUserCashFlow(BidDTO bid) {
+        return new CashFlow(bid.getUserName(), BigDecimal.ZERO, bid.getStake(), bid.getStake(), LocalDateTime.now());
     }
 
-    private UserCashFlow updatedUserCashFlow(UserCashFlow userCashFlow, Bid bid) {
-        UserCashFlow newUserCashFlow = new UserCashFlow();
+    private CashFlow updatedUserCashFlow(CashFlow userCashFlow, BidDTO bid) {
+        CashFlow newUserCashFlow = new CashFlow();
         newUserCashFlow.setUserName(userCashFlow.getUserName());
         newUserCashFlow.setPreviousBalance(userCashFlow.getCurrentBalance());
         newUserCashFlow.setCurrentBalance(userCashFlow.getCurrentBalance().add(bid.getStake()));
