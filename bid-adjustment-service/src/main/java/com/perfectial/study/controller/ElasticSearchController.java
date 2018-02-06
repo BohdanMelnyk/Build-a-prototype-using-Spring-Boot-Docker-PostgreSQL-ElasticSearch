@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/rest/search")
-public class ElasticSearchResource {
+public class ElasticSearchController {
 }

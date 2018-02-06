@@ -2,7 +2,7 @@ package com.perfectial.study.service.redisqueue;
 
 import java.util.Collection;
 
-import com.perfectial.study.dto.BidDTO;
+import com.perfectial.study.domain.Bid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +14,26 @@ public class SubscribeRedisQueueServiceImpl implements SubscribeRedisQueueServic
 	@Value("${redisqueue.name}")
 	String queueName;
 
-	private BidRedisQueueRepository<String, BidDTO> bidQueue;
+	private BidRedisQueueRepository<String, Bid> bidQueue;
 
-	public SubscribeRedisQueueServiceImpl(BidRedisQueueRepository<String, BidDTO> bidQueue) {
+	public SubscribeRedisQueueServiceImpl(BidRedisQueueRepository<String, Bid> bidQueue) {
 		super();
 		this.bidQueue = bidQueue;
 	}
 
 	@Override
-	public Collection<BidDTO> leftPopAllQueue() {
+	public Collection<Bid> leftPopAllQueue() {
 		return bidQueue.popAll(queueName);
 	}
 
 	@Override
-	public BidDTO leftPop() {
+	public Bid leftPop() {
 		return bidQueue.pop(queueName, false);
 
 	}
 
 	@Override
-	public Collection<BidDTO> getQueue() {
+	public Collection<Bid> getQueue() {
 		return bidQueue.get(queueName);
 	}
 }

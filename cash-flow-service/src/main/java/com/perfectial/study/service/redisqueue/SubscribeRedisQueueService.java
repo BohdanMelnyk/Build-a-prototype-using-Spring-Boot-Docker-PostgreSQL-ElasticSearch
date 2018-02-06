@@ -1,6 +1,6 @@
 package com.perfectial.study.service.redisqueue;
 
-import com.perfectial.study.dto.BidDTO;
+import com.perfectial.study.domain.Bid;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
  */
 public interface SubscribeRedisQueueService {
 
-     Collection<BidDTO> leftPopAllQueue();
-     BidDTO leftPop();
-     Collection<BidDTO> getQueue();
+     Collection<Bid> leftPopAllQueue();
+     Bid leftPop();
+     Collection<Bid> getQueue();
 }

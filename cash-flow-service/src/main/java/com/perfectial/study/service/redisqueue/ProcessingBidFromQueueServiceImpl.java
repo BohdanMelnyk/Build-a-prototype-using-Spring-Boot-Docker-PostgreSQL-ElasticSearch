@@ -1,7 +1,7 @@
 package com.perfectial.study.service.redisqueue;
 
+import com.perfectial.study.domain.Bid;
 import com.perfectial.study.domain.CashFlow;
-import com.perfectial.study.dto.BidDTO;
 import com.perfectial.study.repository.CashFlowRepository;
 import com.perfectial.study.service.CashFlowService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,23 +31,23 @@ public class ProcessingBidFromQueueServiceImpl implements ProcessingBidFromQueue
 
     @Override
     public void processAllBidsFromQueue() {
-        Collection<BidDTO> bids = subscribeRedisQueueService.leftPopAllQueue();
+        Collection<Bid> bids = subscribeRedisQueueService.leftPopAllQueue();
         process(bids);
     }
 
     @Override
     public void processBidFromQueue() {
-        BidDTO  bid = subscribeRedisQueueService.leftPop();
+        Bid  bid = subscribeRedisQueueService.leftPop();
         process(bid);
     }
 
     @Override
-    public void process(Collection<BidDTO> bids) {
+    public void process(Collection<Bid> bids) {
         bids.stream().forEach(bid -> process(bid));
     }
 
     @Override
-    public void process(BidDTO bid) {
+    public void process(Bid bid) {
         Optional<CashFlow> userBalanceOptional = cashFlowService.findFirstByUserNameOrderByUpdatedDateDesc(bid.getUserName());
         if (userBalanceOptional.isPresent()) {
             CashFlow userCashFlow = userBalanceOptional.get();
@@ -58,11 +58,11 @@ public class ProcessingBidFromQueueServiceImpl implements ProcessingBidFromQueue
         }
     }
 
-    private CashFlow getNewUserCashFlow(BidDTO bid) {
+    private CashFlow getNewUserCashFlow(Bid bid) {
         return new CashFlow(bid.getUserName(), BigDecimal.ZERO, bid.getStake(), bid.getStake(), LocalDateTime.now());
     }
 
-    private CashFlow updatedUserCashFlow(CashFlow userCashFlow, BidDTO bid) {
+    private CashFlow updatedUserCashFlow(CashFlow userCashFlow, Bid bid) {
         CashFlow newUserCashFlow = new CashFlow();
         newUserCashFlow.setUserName(userCashFlow.getUserName());
         newUserCashFlow.setPreviousBalance(userCashFlow.getCurrentBalance());
