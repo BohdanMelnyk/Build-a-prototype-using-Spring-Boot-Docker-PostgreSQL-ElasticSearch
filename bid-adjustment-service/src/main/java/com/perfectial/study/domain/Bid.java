@@ -1,8 +1,5 @@
 package com.perfectial.study.domain;
 
-/**
- * Created by bomel on 1/23/2018.
- */
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -17,7 +14,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
+@Document(indexName = "bids", type = "bids")
+//@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,22 +31,24 @@ public class Bid implements Serializable{
 
     @Column(name = "userName")
     @NonNull
+    @Field(type = FieldType.text, store = true)
     private String userName;
 
 
     @Column(name = "stake")
     @NonNull
+    @Field(type = FieldType.Double, store = true)
     private BigDecimal stake;
 
     @Column(name = "addedDate")
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, store = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @NonNull
     private LocalDateTime addedDate;
 
     @Column(name = "loggedDate")
-    @Field(type = FieldType.Date)
+    @Field(type = FieldType.Date, store = true)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime loggedDate;

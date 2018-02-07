@@ -1,7 +1,6 @@
 package com.perfectial.study.repository.redisqueue;
 
-import com.perfectial.study.domain.Bid;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.perfectial.study.dto.BidDTO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -9,14 +8,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
-public class BidRedisQueueRepositoryImpl implements BidRedisQueueRepository<String, Bid> {
+public class BidRedisQueueRepositoryImpl implements BidRedisQueueRepository<String, BidDTO> {
 
-	@Autowired
-	private RedisTemplate<String, Bid> redisTemplate;
+	private final RedisTemplate<String, BidDTO> redisTemplate;
+
+	public BidRedisQueueRepositoryImpl(RedisTemplate<String, BidDTO> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 
 
 	@Override
-	public void push(String key, Bid value, boolean right) {
+	public void push(String key, BidDTO value, boolean right) {
 		if (right) {
 			redisTemplate.opsForList().rightPush(key, value);
 		} else {
@@ -25,20 +27,20 @@ public class BidRedisQueueRepositoryImpl implements BidRedisQueueRepository<Stri
 	}
 
 	@Override
-	public void multiAdd(String key, Collection<Bid> values, boolean right) {
-		for (Bid value : values) {
+	public void multiAdd(String key, Collection<BidDTO> values, boolean right) {
+		for (BidDTO value : values) {
 			push(key, value, right);
 		}
 	}
 
 	@Override
-	public Collection<Bid> get(String key) {
+	public Collection<BidDTO> get(String key) {
 		return redisTemplate.opsForList().range(key, 0, -1);
 	}
 
 	@Override
-	public Bid pop(String key, boolean right) {
-		Bid value;
+	public BidDTO pop(String key, boolean right) {
+		BidDTO value;
 		if (right) {
 			value = redisTemplate.opsForList().rightPop(key);
 		} else {
@@ -63,9 +65,9 @@ public class BidRedisQueueRepositoryImpl implements BidRedisQueueRepository<Stri
 	}
 
 	@Override
-	public Collection<Bid> popAll(String key) {
-		Collection<Bid> bids = new ArrayList<>();
-		Bid bid = pop(key, false);
+	public Collection<BidDTO> popAll(String key) {
+		Collection<BidDTO> bids = new ArrayList<>();
+		BidDTO bid = pop(key, false);
 		while (bid != null) {
 			bids.add(bid);
 			bid = pop(key, false);

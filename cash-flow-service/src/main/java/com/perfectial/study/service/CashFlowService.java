@@ -6,9 +6,6 @@ import com.perfectial.study.dto.CashFlowDTO;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by bomel on 1/23/2018.
- */
 public interface CashFlowService {
 
     Optional<CashFlow> findFirstByUserNameOrderByUpdatedDateDesc(String userName);

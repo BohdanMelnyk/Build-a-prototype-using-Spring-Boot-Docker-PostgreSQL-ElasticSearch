@@ -6,16 +6,11 @@ import com.perfectial.study.service.CashFlowService;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.font.OpenType;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Created by bomel on 1/23/2018.
- */
 @RestController
+@RequestMapping("/cashFlow/rest")
 public class CashFlowController {
     private final CashFlowService cashFlowService;
     private final ModelMapper modelMapper;
@@ -25,20 +20,29 @@ public class CashFlowController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/rest/getCashFlowsByUserName")
+    @GetMapping("/getCashFlowsByUserName")
     public List<CashFlowDTO> getCashFlowsByUserName(@RequestParam String userName){
         List<CashFlow> cashFlows = cashFlowService.findByUserNameOrderByUpdatedDateDesc(userName);
         List<CashFlowDTO> cashFlowDTOS = cashFlows.stream().map(cashFlow -> modelMapper.map(cashFlow, CashFlowDTO.class)).collect(Collectors.toList());
         return cashFlowDTOS;
     }
 
-    @GetMapping("/rest/getCashFlowByUserName")
+    @GetMapping("/getCashFlowByUserName")
     public CashFlowDTO getCashFlowByUserName(@RequestParam String userName){
         CashFlow cashFlow = cashFlowService.findFirstByUserNameOrderByUpdatedDateDesc(userName).get();
+        if(cashFlow == null){
+            return null;
+        } else{
+        return modelMapper.map(cashFlow, CashFlowDTO.class);
+        }
+    }
+    @GetMapping("/getCashFlowById")
+    public CashFlowDTO getCashFlowByUserName(@RequestParam Long id){
+        CashFlow cashFlow = cashFlowService.getById(id).get();
         return modelMapper.map(cashFlow, CashFlowDTO.class);
     }
 
-    @PostMapping("/rest/addCashFlow")
+    @PostMapping("/addCashFlow")
     public CashFlow addCashFlow(@RequestBody CashFlowDTO cashFlowDTO) {
         CashFlow cashFlow = modelMapper.map(cashFlowDTO, CashFlow.class);
         return cashFlowService.addCashFlow(cashFlow);

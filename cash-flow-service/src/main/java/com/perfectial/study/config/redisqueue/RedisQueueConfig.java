@@ -1,7 +1,7 @@
 package com.perfectial.study.config.redisqueue;
 
-import com.perfectial.study.domain.Bid;
-import com.perfectial.study.util.BidCustomSerializer;
+import com.perfectial.study.dto.BidDTO;
+import com.perfectial.study.util.BidDTOCustomSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,11 +39,11 @@ public class RedisQueueConfig {
 	}
 
 	@Bean
-	public RedisTemplate<String, Bid> redisTemplateRepository() {
-		final RedisTemplate<String, Bid> template = new RedisTemplate<String, Bid>();
+	public RedisTemplate<String, BidDTO> redisTemplateRepository() {
+		final RedisTemplate<String, BidDTO> template = new RedisTemplate <>();
 		template.setConnectionFactory(jedisConnectionFactory());
 		template.setKeySerializer(new StringRedisSerializer());
-		template.setValueSerializer(new BidCustomSerializer());
+		template.setValueSerializer(new BidDTOCustomSerializer());
 		return template;
 	}
 

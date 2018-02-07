@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@RequestMapping("/ba/rest")
 public class BidController {
     private final BidService bidService;
     private final ModelMapper modelMapper;
@@ -23,21 +24,20 @@ public class BidController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/rest/allBids")
+    @GetMapping("/allBids")
     public List<BidDTO> getAllBids(){
         List<Bid> bids = bidService.findAllBids();
-        List<BidDTO> bidDTOs = bids.stream().map(bid->modelMapper.map(bid,BidDTO.class)).collect(Collectors.toList());
-        return bidDTOs;
+        return bids.stream().map(bid->modelMapper.map(bid,BidDTO.class)).collect(Collectors.toList());
     }
 
-    @PostMapping("/rest/addBid")
+    @PostMapping("/addBid")
     public BidDTO addBid(@ModelAttribute("bidDTO") @NonNull BidDTO bidDTO){
         bidDTO.setLoggedDate(LocalDateTime.now());
         Bid savedBid = bidService.addBid(modelMapper.map(bidDTO, Bid.class));
         return modelMapper.map(savedBid, BidDTO.class);
     }
 
-    @PostMapping("/rest/bidAdjustment")
+    @PostMapping("/bidAdjustment")
     public BidDTO bidAdjustment(@RequestBody BidDTO bidDTO){
         Bid bid = modelMapper.map(bidDTO, Bid.class);
         bid.setLoggedDate(LocalDateTime.now());
@@ -45,7 +45,7 @@ public class BidController {
         return modelMapper.map(addedBid, BidDTO.class);
     }
 
-    @GetMapping("/rest/addTestBid")
+    @GetMapping("/addTestBid")
     public BidDTO addTestBid(){
         Bid testBid = bidService.addTestBid();
         return modelMapper.map(testBid, BidDTO.class);

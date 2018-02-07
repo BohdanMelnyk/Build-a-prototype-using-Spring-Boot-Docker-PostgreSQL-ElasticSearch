@@ -1,7 +1,7 @@
 package com.perfectial.study.service.redisqueue;
 
 import com.perfectial.study.config.redisqueue.RedisQueueMessagePublisher;
-import com.perfectial.study.domain.Bid;
+import com.perfectial.study.dto.BidDTO;
 import com.perfectial.study.repository.redisqueue.RedisQueueRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ public class PublishRedisQueueServiceImpl implements PublishRedisQueueService {
 
 	private final RedisQueueMessagePublisher redisMessagePublisher;
 
-	private final RedisQueueRepository<String, Bid> trafficQueue;
+	private final RedisQueueRepository<String, BidDTO> trafficQueue;
 
 
-	public PublishRedisQueueServiceImpl(RedisQueueMessagePublisher redisMessagePublisher, RedisQueueRepository<String, Bid> trafficQueue) {
+	public PublishRedisQueueServiceImpl(RedisQueueMessagePublisher redisMessagePublisher, RedisQueueRepository<String, BidDTO> trafficQueue) {
 		super();
 		this.redisMessagePublisher = redisMessagePublisher;
 		this.trafficQueue = trafficQueue;
@@ -31,7 +31,7 @@ public class PublishRedisQueueServiceImpl implements PublishRedisQueueService {
 	}
 
 
-	public void rightPush(Bid bid) {
+	public void rightPush(BidDTO bid) {
 		trafficQueue.push(queueName, bid, true);
 	}
 }

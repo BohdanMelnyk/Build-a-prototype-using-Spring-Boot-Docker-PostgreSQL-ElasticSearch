@@ -8,9 +8,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Created by bomel on 1/23/2018.
- */
 @Service
 public class BidServiceImpl implements BidService {
 
@@ -37,11 +34,12 @@ public class BidServiceImpl implements BidService {
     @Override
     public Bid addTestBid() {
         Bid bid = new Bid();
-        bid.setId(12l);
+        bid.setId(12L);
         bid.setUserName("Test User");
         bid.setStake(BigDecimal.valueOf(0.123d));
         bid.setAddedDate(LocalDateTime.now());
         bid.setLoggedDate(LocalDateTime. now());
         return addBid(bid);
     }
+
 }

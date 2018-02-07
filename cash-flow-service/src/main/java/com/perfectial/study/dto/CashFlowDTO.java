@@ -5,9 +5,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Created by bomel on 2/5/2018.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

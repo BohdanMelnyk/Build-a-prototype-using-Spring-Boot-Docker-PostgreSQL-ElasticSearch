@@ -2,7 +2,6 @@ package com.perfectial.study.config;
 
 import com.perfectial.study.domain.Bid;
 import com.perfectial.study.repository.BidRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,27 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by bomel on 1/24/2018.
- */
 @Component
 public class InitConfig {
 
-    @Autowired
-    private BidRepository bidRepository;
+    private final BidRepository bidRepository;
+
+    public InitConfig(BidRepository bidRepository) {
+        this.bidRepository = bidRepository;
+    }
 
     @PostConstruct
     public void insertDataSample() {
-        bidRepository.deleteAll();
-//        bidRepository.saveAll(getRandomBids());
+        bidRepository.saveAll(getRandomBids());
     }
 
     private List<Bid> getRandomBids() {
         List<Bid> bids = new ArrayList<>();
-        for(int i=0;i<11;i++){
+        for(int i=0;i<1000;i++){
             Random rand = new Random();
             Bid randomBid = new Bid();
-            randomBid.setUserName("User N = " +  rand.nextInt(100));
+            randomBid.setUserName("user " +  rand.nextInt(10));
             randomBid.setStake(BigDecimal.valueOf(rand.nextDouble()));
             randomBid.setAddedDate(LocalDateTime.now());
             randomBid.setLoggedDate(LocalDateTime.now());

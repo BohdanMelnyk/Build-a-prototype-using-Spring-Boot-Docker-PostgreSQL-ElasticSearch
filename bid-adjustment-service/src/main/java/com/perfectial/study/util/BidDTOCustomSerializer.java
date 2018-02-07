@@ -1,41 +1,38 @@
 package com.perfectial.study.util;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
-import com.perfectial.study.domain.Bid;
+import com.perfectial.study.dto.BidDTO;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+
 @Component
-public class BidCustomSerializer implements RedisSerializer<Bid> {
+public class BidDTOCustomSerializer implements RedisSerializer<BidDTO> {
 
 	private final ObjectMapper objectMapper;
 
-	public BidCustomSerializer() {
+	public BidDTOCustomSerializer() {
 		super();
 		this.objectMapper = new ObjectMapper().enableDefaultTyping(DefaultTyping.NON_FINAL, As.PROPERTY);
 	}
 
 	@Override
-	public byte[] serialize(Bid t) throws SerializationException {
+	public byte[] serialize(BidDTO bid) throws SerializationException {
 		try {
-			return objectMapper.writeValueAsBytes(t);
+			return objectMapper.writeValueAsBytes(bid);
 		} catch (JsonProcessingException e) {
 			throw new SerializationException(e.getMessage(), e);
 		}
 	}
 
 	@Override
-	public Bid deserialize(byte[] bytes) throws SerializationException {
-		if (bytes == null) {
-			return null;
-		}
-
+	public BidDTO deserialize(byte[] bytes) throws SerializationException {
 		try {
-			return objectMapper.readValue(bytes, Bid.class);
+			return objectMapper.readValue(bytes, BidDTO.class);
 		} catch (Exception e) {
 			throw new SerializationException(e.getMessage(), e);
 		}

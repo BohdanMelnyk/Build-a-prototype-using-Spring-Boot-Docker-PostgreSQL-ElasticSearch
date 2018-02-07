@@ -13,9 +13,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by bomel on 1/23/2018.
- */
 @Slf4j
 @Component
 public class CashFlowBootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -57,13 +54,7 @@ public class CashFlowBootstrap implements ApplicationListener<ContextRefreshedEv
             return BigDecimal.ZERO;
         } else{
             List<CashFlow> alredyExistCashFlows = userCashFlows.stream().filter(e->e.getUserName().equals(userName)).collect(Collectors.toList());
-            Collections.sort(alredyExistCashFlows, new Comparator<CashFlow>() {
-                        @Override
-                        public int compare(CashFlow o1, CashFlow o2)
-                        {
-                            return o2.getUpdatedDate().compareTo(o1.getUpdatedDate());
-                        }
-                    }
+            Collections.sort(alredyExistCashFlows, (o1, o2) -> o2.getUpdatedDate().compareTo(o1.getUpdatedDate())
             );
             return alredyExistCashFlows.get(0).getCurrentBalance();
         }

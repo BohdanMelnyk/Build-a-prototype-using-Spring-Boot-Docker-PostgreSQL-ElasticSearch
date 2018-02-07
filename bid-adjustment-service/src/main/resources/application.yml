@@ -1,6 +1,12 @@
 spring:
   profiles:
     active: docker
+  data:
+    elasticsearch:
+      host: "localhost"
+      port: 9300
+      clustername: "docker-cluster"
+
 
 redisqueue:
   name: "bid:redisqueue"

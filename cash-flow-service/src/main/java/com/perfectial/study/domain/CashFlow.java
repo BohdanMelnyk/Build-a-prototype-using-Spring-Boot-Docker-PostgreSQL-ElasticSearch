@@ -10,10 +10,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Created by bomel on 1/26/2018.
- */
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -46,11 +42,4 @@ public class CashFlow {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updatedDate;
 
-    public CashFlow(String userName, BigDecimal previousBalance, BigDecimal currentBalance, BigDecimal stake, LocalDateTime updatedDate) {
-        this.userName = userName;
-        this.previousBalance = previousBalance;
-        this.currentBalance = currentBalance;
-        this.stake = stake;
-        this.updatedDate = updatedDate;
-    }
 }

@@ -4,17 +4,18 @@ services:
 
   biddb:
     image: postgres
+    container_name: "biddb"
     restart: always
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: biddb
-#      POSTGRES_MULTIPLE_DATABASES: biddb,usercashflowdb
     ports:
       - "5433:5432"
 
 
   usercashflowdb:
     image: postgres
+    container_name: "usercashflowdb"
     restart: always
     environment:
       POSTGRES_PASSWORD: password
@@ -25,6 +26,17 @@ services:
 
   redisqueue:
     image: redis
+    container_name: "redisqueue"
     restart: always
     ports:
       - "6379:6379"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.0
+    container_name: "elasticsearch"
+    environment:
+       - discovery.type=single-node
+#      - cluster.name=elasticsearch-cluster
+    ports:
+      - "9200:9200"
+      - "9300:9300"
