@@ -2,6 +2,7 @@ package com.perfectial.study.config;
 
 import com.perfectial.study.domain.Bid;
 import com.perfectial.study.repository.BidRepository;
+import com.perfectial.study.service.BidService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,20 +15,22 @@ import java.util.Random;
 @Component
 public class InitConfig {
 
-    private final BidRepository bidRepository;
+//    private final BidRepository bidRepository;
+    private final BidService bidService;
 
-    public InitConfig(BidRepository bidRepository) {
-        this.bidRepository = bidRepository;
+    public InitConfig(BidService bidService) {
+//        this.bidRepository = bidRepository;
+        this.bidService = bidService;
     }
 
     @PostConstruct
     public void insertDataSample() {
-        bidRepository.saveAll(getRandomBids());
+        bidService.add(getRandomBids());
     }
 
     private List<Bid> getRandomBids() {
         List<Bid> bids = new ArrayList<>();
-        for(int i=0;i<1000;i++){
+        for(int i=0;i<10;i++){
             Random rand = new Random();
             Bid randomBid = new Bid();
             randomBid.setUserName("user " +  rand.nextInt(10));

@@ -31,6 +31,10 @@ public class BidDTOCustomSerializer implements RedisSerializer<BidDTO> {
 
 	@Override
 	public BidDTO deserialize(byte[] bytes) throws SerializationException {
+		if (bytes == null) {
+			return null;
+		}
+
 		try {
 			return objectMapper.readValue(bytes, BidDTO.class);
 		} catch (Exception e) {

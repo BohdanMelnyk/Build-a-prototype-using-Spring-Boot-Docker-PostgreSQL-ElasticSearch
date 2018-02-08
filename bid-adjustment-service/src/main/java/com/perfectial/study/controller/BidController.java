@@ -33,7 +33,7 @@ public class BidController {
     @PostMapping("/addBid")
     public BidDTO addBid(@ModelAttribute("bidDTO") @NonNull BidDTO bidDTO){
         bidDTO.setLoggedDate(LocalDateTime.now());
-        Bid savedBid = bidService.addBid(modelMapper.map(bidDTO, Bid.class));
+        Bid savedBid = bidService.add(modelMapper.map(bidDTO, Bid.class));
         return modelMapper.map(savedBid, BidDTO.class);
     }
 
@@ -41,7 +41,7 @@ public class BidController {
     public BidDTO bidAdjustment(@RequestBody BidDTO bidDTO){
         Bid bid = modelMapper.map(bidDTO, Bid.class);
         bid.setLoggedDate(LocalDateTime.now());
-        Bid addedBid =  bidService.addBid(bid);
+        Bid addedBid =  bidService.add(bid);
         return modelMapper.map(addedBid, BidDTO.class);
     }
 

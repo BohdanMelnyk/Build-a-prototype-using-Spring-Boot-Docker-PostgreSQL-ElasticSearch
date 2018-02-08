@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface BidService {
     List<Bid> findAllBids();
-    Bid addBid(Bid bid);
+    Bid add(Bid bid);
+    List<Bid> add(List<Bid> bid);
     Bid addTestBid();
 
 

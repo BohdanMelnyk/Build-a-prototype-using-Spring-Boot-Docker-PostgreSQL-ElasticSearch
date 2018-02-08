@@ -1,7 +1,7 @@
 package com.perfectial.study.controller;
 
-import com.perfectial.study.domain.Bid;
-import com.perfectial.study.dto.BidDTO;
+import com.perfectial.study.domain.BidES;
+import com.perfectial.study.dto.BidESDTO;
 import com.perfectial.study.service.ESService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -29,35 +29,35 @@ public class BidESController {
         this.esService = esService;
     }
     @GetMapping("/findByUserName")
-    public List<BidDTO> findByUserName(@RequestParam String userName){
-        List<Bid> bids = esService.findByUserName(userName);
-        return bids.stream().map(bid ->modelMapper.map(bid,BidDTO.class)).collect(Collectors.toList());
+    public List<BidESDTO> findByUserName(@RequestParam String userName){
+        List<BidES> bidESs = esService.findByUserName(userName);
+        return bidESs.stream().map(bidES ->modelMapper.map(bidES,BidESDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/findByUserNameES")
-    public Page<Bid> findByUserNameES(@RequestParam String userName){
+    public Page<BidES> findByUserNameES(@RequestParam String userName){
         return esService.findByUserName(userName, PageRequest.of(0,10));
     }
 
     @GetMapping("/findByStake")
-    public List<BidDTO> findByStake(@RequestParam BigDecimal stake){
-        List<Bid> bids = esService.findByStake(stake);
-        return bids.stream().map(bid ->modelMapper.map(bid,BidDTO.class)).collect(Collectors.toList());
+    public List<BidESDTO> findByStake(@RequestParam BigDecimal stake){
+        List<BidES> bids = esService.findByStake(stake);
+        return bids.stream().map(bid ->modelMapper.map(bid,BidESDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/findByStakeES")
-    public Page<Bid> findByStakeES(@RequestParam BigDecimal stake){
+    public Page<BidES> findByStakeES(@RequestParam BigDecimal stake){
         return esService.findByStake(stake, PageRequest.of(0,10));
     }
 
     @GetMapping("/findByAddedDate")
-    public List<BidDTO> findAddedDate(@RequestParam LocalDateTime localDateTime){
-        List<Bid> bids = esService.findByAddedDate(localDateTime);
-        return bids.stream().map(bid ->modelMapper.map(bid,BidDTO.class)).collect(Collectors.toList());
+    public List<BidESDTO> findAddedDate(@RequestParam LocalDateTime localDateTime){
+        List<BidES> bids = esService.findByAddedDate(localDateTime);
+        return bids.stream().map(bid ->modelMapper.map(bid,BidESDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/findByAddedDateES")
-    public Page<Bid> findByAddedDateES(@RequestParam LocalDateTime localDateTime){
+    public Page<BidES> findByAddedDateES(@RequestParam LocalDateTime localDateTime){
         return esService.findByAddedDate(localDateTime, PageRequest.of(0,10));
     }
 }
